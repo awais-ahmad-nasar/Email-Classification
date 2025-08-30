@@ -5,9 +5,9 @@ A sophisticated Python-based email classification system designed to categorize 
 # Features
 
 
-Multi-Model Support: Seamlessly integrates pretrained transformer models (cardiffnlp/twitter-roberta-base-sentiment-latest) for sentiment-based classification, with fallback to a robust rule-based classifier if model loading fails or for lightweight operation.
+> Multi-Model Support: Seamlessly integrates pretrained transformer models (cardiffnlp/twitter-roberta-base-sentiment-latest) for sentiment-based classification, with fallback to a robust rule-based classifier if model loading fails or for lightweight operation.
 
-Enhanced Keyword Analysis: Includes ultra-comprehensive keyword dictionaries for each category (e.g., spam, promotions, personal) with weighted scoring for critical indicators like urgency, financial terms, or personal greetings. Regular expressions enhance detection of email structures specific to each category.
+> Enhanced Keyword Analysis: Includes ultra-comprehensive keyword dictionaries for each category (e.g., spam, promotions, personal) with weighted scoring for critical indicators like urgency, financial terms, or personal greetings. Regular expressions enhance detection of email structures specific to each category.
 
 Device Optimization: Automatically detects and selects the optimal device (CPU or CUDA-enabled GPU) based on available memory (minimum 1.5GB GPU memory required for CUDA). Provides fallback to CPU if GPU resources are insufficient.
 
