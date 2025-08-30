@@ -5,7 +5,11 @@ A robust Python-based email classification system leveraging pretrained transfor
 # Features
 
 Multi-Model Support: Utilizes DistilBERT, BERT, or RoBERTa with a fallback to a rule-based classifier.
+
 Enhanced Keyword Analysis: Extensive keyword dictionaries and regex patterns for precise category detection.
+
 Device Optimization: Automatically selects CPU or GPU based on available resources.
+
 Batch Processing: Efficiently classifies multiple emails with progress tracking.
+
 Detailed Analysis: Provides in-depth category scoring and keyword matching insights.
