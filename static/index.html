@@ -1,1 +1,462 @@
+<!--<!DOCTYPE html>-->
+<!--<html lang="en">-->
+<!--<head>-->
+<!--    <meta charset="UTF-8">-->
+<!--    <meta name="viewport" content="width=device-width, initial-scale=1.0">-->
+<!--    <title>Email Classifier</title>-->
+<!--    <script src="https://cdn.jsdelivr.net/npm/react@18.2.0/umd/react.production.min.js"></script>-->
+<!--    <script src="https://cdn.jsdelivr.net/npm/react-dom@18.2.0/umd/react-dom.production.min.js"></script>-->
+<!--    <script src="https://cdn.jsdelivr.net/npm/@babel/standalone@7.20.15/babel.min.js"></script>-->
+<!--    <script src="https://cdn.tailwindcss.com"></script>-->
+<!--    <style>-->
+<!--        body {-->
+<!--            font-family: 'Inter', sans-serif;-->
+<!--            background: linear-gradient(to bottom right, #f3f4f6, #e5e7eb);-->
+<!--            min-height: 100vh;-->
+<!--            margin: 0;-->
+<!--            padding: 0;-->
+<!--        }-->
+<!--    </style>-->
+<!--</head>-->
+<!--<body>-->
+<!--    <div id="root"></div>-->
 
+<!--    <script type="text/babel">-->
+<!--        function EmailClassifierUI() {-->
+<!--            const [subject, setSubject] = React.useState('');-->
+<!--            const [body, setBody] = React.useState('');-->
+<!--            const [result, setResult] = React.useState(null);-->
+<!--            const [loading, setLoading] = React.useState(false);-->
+<!--            const [error, setError] = React.useState(null);-->
+
+<!--            const classifyEmail = async (subject, body) => {-->
+<!--                setLoading(true);-->
+<!--                setError(null);-->
+<!--                setResult(null);-->
+
+<!--                try {-->
+<!--                    const response = await fetch('/api/classify', {-->
+<!--                        method: 'POST',-->
+<!--                        headers: { 'Content-Type': 'application/json' },-->
+<!--                        body: JSON.stringify({ subject, body, return_probabilities: true })-->
+<!--                    });-->
+<!--                    if (!response.ok) {-->
+<!--                        throw new Error(`HTTP error! status: ${response.status}`);-->
+<!--                    }-->
+<!--                    const data = await response.json();-->
+<!--                    setResult(data);-->
+<!--                } catch (err) {-->
+<!--                    setError('Failed to classify email. Please try again.');-->
+<!--                } finally {-->
+<!--                    setLoading(false);-->
+<!--                }-->
+<!--            };-->
+
+<!--            const handleSubmit = (e) => {-->
+<!--                e.preventDefault();-->
+<!--                classifyEmail(subject, body);-->
+<!--            };-->
+
+<!--            const handleClear = () => {-->
+<!--                setSubject('');-->
+<!--                setBody('');-->
+<!--                setResult(null);-->
+<!--                setError(null);-->
+<!--            };-->
+
+<!--            return (-->
+<!--                <div className="container mx-auto px-4 py-8 max-w-4xl">-->
+<!--                    <h1 className="text-3xl font-bold text-center text-gray-800 mb-8">-->
+<!--                        Email Classifier-->
+<!--                    </h1>-->
+
+<!--                    <div className="bg-white rounded-lg shadow-lg p-6 mb-8">-->
+<!--                        <div className="mb-6">-->
+<!--                            <h2 className="text-xl font-semibold text-gray-700 mb-4">-->
+<!--                                Enter Email Details-->
+<!--                            </h2>-->
+<!--                            <div className="space-y-4">-->
+<!--                                <div>-->
+<!--                                    <label className="block text-sm font-medium text-gray-600 mb-1">-->
+<!--                                        Subject-->
+<!--                                    </label>-->
+<!--                                    <input-->
+<!--                                        type="text"-->
+<!--                                        value={subject}-->
+<!--                                        onChange={(e) => setSubject(e.target.value)}-->
+<!--                                        className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"-->
+<!--                                        placeholder="Enter email subject"-->
+<!--                                    />-->
+<!--                                </div>-->
+<!--                                <div>-->
+<!--                                    <label className="block text-sm font-medium text-gray-600 mb-1">-->
+<!--                                        Body-->
+<!--                                    </label>-->
+<!--                                    <textarea-->
+<!--                                        value={body}-->
+<!--                                        onChange={(e) => setBody(e.target.value)}-->
+<!--                                        className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"-->
+<!--                                        rows="6"-->
+<!--                                        placeholder="Enter email body"-->
+<!--                                    ></textarea>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                        </div>-->
+
+<!--                        <div className="flex space-x-4">-->
+<!--                            <button-->
+<!--                                onClick={handleSubmit}-->
+<!--                                disabled={loading}-->
+<!--                                className={`flex-1 py-2 px-4 rounded-md text-white font-semibold transition duration-300 ${-->
+<!--                                    loading ? 'bg-gray-400 cursor-not-allowed' : 'bg-blue-600 hover:bg-blue-700'-->
+<!--                                }`}-->
+<!--                            >-->
+<!--                                {loading ? 'Classifying...' : 'Classify Email'}-->
+<!--                            </button>-->
+<!--                            <button-->
+<!--                                onClick={handleClear}-->
+<!--                                className="flex-1 py-2 px-4 rounded-md bg-gray-200 text-gray-700 font-semibold hover:bg-gray-300 transition duration-300"-->
+<!--                            >-->
+<!--                                Clear-->
+<!--                            </button>-->
+<!--                        </div>-->
+<!--                    </div>-->
+
+<!--                    {error && (-->
+<!--                        <div className="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 rounded-md mb-8">-->
+<!--                            {error}-->
+<!--                        </div>-->
+<!--                    )}-->
+
+<!--                    {result && (-->
+<!--                        <div className="bg-white rounded-lg shadow-lg p-6">-->
+<!--                            <h2 className="text-xl font-semibold text-gray-700 mb-4">-->
+<!--                                Classification Result-->
+<!--                            </h2>-->
+<!--                            <div className="space-y-4">-->
+<!--                                <div className="p-4 bg-blue-50 rounded-md">-->
+<!--                                    <p className="text-lg font-medium text-blue-800">-->
+<!--                                        Category: <span className="font-bold">{result.category}</span>-->
+<!--                                    </p>-->
+<!--                                    <p className="text-sm text-blue-600">-->
+<!--                                        Confidence: {(result.confidence * 100).toFixed(2)}%-->
+<!--                                    </p>-->
+<!--                                    {result.method && (-->
+<!--                                        <p className="text-sm text-blue-600">-->
+<!--                                            Method: {result.method}-->
+<!--                                        </p>-->
+<!--                                    )}-->
+<!--                                </div>-->
+<!--                                {result.all_probabilities && (-->
+<!--                                    <div>-->
+<!--                                        <h3 className="text-sm font-medium text-gray-600 mb-2">-->
+<!--                                            All Probabilities-->
+<!--                                        </h3>-->
+<!--                                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">-->
+<!--                                            {Object.entries(result.all_probabilities)-->
+<!--                                                .sort((a, b) => b[1] - a[1])-->
+<!--                                                .map(([category, prob]) => (-->
+<!--                                                    <div key={category} className="flex justify-between text-sm">-->
+<!--                                                        <span className="text-gray-600">{category}</span>-->
+<!--                                                        <span className="text-gray-800 font-medium">-->
+<!--                                                            {(prob * 100).toFixed(2)}%-->
+<!--                                                        </span>-->
+<!--                                                    </div>-->
+<!--                                                ))}-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                )}-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    )}-->
+<!--                </div>-->
+<!--            );-->
+<!--        }-->
+
+<!--        ReactDOM.render(<EmailClassifierUI />, document.getElementById('root'));-->
+<!--    </script>-->
+<!--</body>-->
+<!--</html>-->
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Email Classifier</title>
+    <script src="https://cdn.jsdelivr.net/npm/react@18.2.0/umd/react.production.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/react-dom@18.2.0/umd/react-dom.production.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@babel/standalone@7.20.15/babel.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(to bottom right, #e0f2fe, #bfdbfe);
+            min-height: 100vh;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+        }
+        header, footer {
+            background: linear-gradient(to right, #3b82f6, #2563eb);
+            color: white;
+            padding: 1rem 0;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        footer {
+            margin-top: auto;
+        }
+        .container {
+            max-width: 4xl;
+            margin: auto;
+            padding: 2rem 1rem;
+        }
+        .card {
+            background: white;
+            border-radius: 1rem;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            padding: 2rem;
+            transition: transform 0.3s ease;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+        }
+        .button-primary {
+            background: linear-gradient(to right, #3b82f6, #2563eb);
+            color: white;
+            font-weight: 600;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            transition: all 0.3s ease;
+        }
+        .button-primary:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 6px rgba(59, 130, 246, 0.5);
+        }
+        .button-secondary {
+            background: #e5e7eb;
+            color: #374151;
+            font-weight: 600;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            transition: all 0.3s ease;
+        }
+        .button-secondary:hover {
+            background: #d1d5db;
+            transform: scale(1.05);
+        }
+        .input-field {
+            border: 1px solid #d1d5db;
+            border-radius: 0.5rem;
+            padding: 0.75rem 1rem;
+            width: 100%;
+            transition: all 0.3s ease;
+        }
+        .input-field:focus {
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+            outline: none;
+        }
+        .result-card {
+            background: linear-gradient(to bottom, #f0f9ff, #e0f2fe);
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+        }
+        .progress-bar {
+            background: #e5e7eb;
+            border-radius: 9999px;
+            height: 0.5rem;
+            overflow: hidden;
+        }
+        .progress-fill {
+            background: linear-gradient(to right, #3b82f6, #2563eb);
+            height: 100%;
+            transition: width 0.5s ease;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div className="container mx-auto">
+            <h1 className="text-4xl font-bold flex items-center justify-center gap-2">
+                <i className="fas fa-envelope text-3xl"></i> Email Classifier
+            </h1>
+            <p className="text-lg mt-2 opacity-90">Advanced AI-powered email categorization tool</p>
+        </div>
+    </header>
+
+    <div id="root" className="flex-grow"></div>
+
+    <footer>
+        <div className="container mx-auto">
+            <p>&copy; 2025 Email Classifier. All rights reserved.</p>
+            <p className="text-sm opacity-80">Powered by xAI Technology</p>
+        </div>
+    </footer>
+
+    <script type="text/babel">
+        function EmailClassifierUI() {
+            const [subject, setSubject] = React.useState('');
+            const [body, setBody] = React.useState('');
+            const [result, setResult] = React.useState(null);
+            const [loading, setLoading] = React.useState(false);
+            const [error, setError] = React.useState(null);
+
+            const classifyEmail = async (subject, body) => {
+                setLoading(true);
+                setError(null);
+                setResult(null);
+
+                try {
+                    const response = await fetch('/api/classify', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ subject, body, return_probabilities: true })
+                    });
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+                    const data = await response.json();
+                    setResult(data);
+                } catch (err) {
+                    setError('Failed to classify email. Please try again.');
+                } finally {
+                    setLoading(false);
+                }
+            };
+
+            const handleSubmit = (e) => {
+                e.preventDefault();
+                classifyEmail(subject, body);
+            };
+
+            const handleClear = () => {
+                setSubject('');
+                setBody('');
+                setResult(null);
+                setError(null);
+            };
+
+            return (
+                <div className="container mx-auto px-4 py-12">
+                    <div className="card mb-8">
+                        <div className="mb-6">
+                            <h2 className="text-2xl font-semibold text-gray-800 mb-4 flex items-center gap-2">
+                                <i className="fas fa-edit text-blue-600"></i> Enter Email Details
+                            </h2>
+                            <div className="space-y-6">
+                                <div>
+                                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                                        Subject
+                                    </label>
+                                    <input
+                                        type="text"
+                                        value={subject}
+                                        onChange={(e) => setSubject(e.target.value)}
+                                        className="input-field"
+                                        placeholder="Enter email subject"
+                                    />
+                                </div>
+                                <div>
+                                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                                        Body
+                                    </label>
+                                    <textarea
+                                        value={body}
+                                        onChange={(e) => setBody(e.target.value)}
+                                        className="input-field"
+                                        rows="8"
+                                        placeholder="Enter email body"
+                                    ></textarea>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="flex space-x-4">
+                            <button
+                                onClick={handleSubmit}
+                                disabled={loading}
+                                className={`flex-1 button-primary ${loading ? 'opacity-70 cursor-not-allowed' : ''}`}
+                            >
+                                {loading ? 'Classifying...' : 'Classify Email'}
+                            </button>
+                            <button
+                                onClick={handleClear}
+                                className="flex-1 button-secondary"
+                            >
+                                Clear
+                            </button>
+                        </div>
+                    </div>
+
+                    {error && (
+                        <div className="bg-red-50 border-l-4 border-red-500 text-red-700 p-6 rounded-lg mb-8 shadow-md">
+                            <i className="fas fa-exclamation-triangle mr-2"></i> {error}
+                        </div>
+                    )}
+
+                    {result && (
+                        <div className="card">
+                            <h2 className="text-2xl font-semibold text-gray-800 mb-6 flex items-center gap-2">
+                                <i className="fas fa-chart-pie text-blue-600"></i> Classification Result
+                            </h2>
+                            <div className="space-y-6">
+                                <div className="result-card">
+                                    <p className="text-xl font-medium text-blue-800 mb-2">
+                                        Category: <span className="font-bold">{result.category}</span>
+                                    </p>
+                                    <p className="text-sm text-blue-600 mb-2">
+                                        Confidence: {(result.confidence * 100).toFixed(2)}%
+                                    </p>
+                                    <div className="progress-bar mb-2">
+                                        <div className="progress-fill" style={{ width: `${result.confidence * 100}%` }}></div>
+                                    </div>
+                                    {result.method && (
+                                        <p className="text-sm text-blue-600">
+                                            Method: {result.method}
+                                        </p>
+                                    )}
+                                </div>
+                                {result.all_probabilities && (
+                                    <div>
+                                        <h3 className="text-lg font-medium text-gray-700 mb-4">
+                                            All Probabilities
+                                        </h3>
+                                        <div className="space-y-4">
+                                            {Object.entries(result.all_probabilities)
+                                                .sort((a, b) => b[1] - a[1])
+                                                .map(([category, prob]) => (
+                                                    <div key={category} className="flex flex-col">
+                                                        <div className="flex justify-between text-sm mb-1">
+                                                            <span className="text-gray-600 font-medium">{category}</span>
+                                                            <span className="text-gray-800 font-semibold">
+                                                                {(prob * 100).toFixed(2)}%
+                                                            </span>
+                                                        </div>
+                                                        <div className="progress-bar">
+                                                            <div className="progress-fill" style={{ width: `${prob * 100}%` }}></div>
+                                                        </div>
+                                                    </div>
+                                                ))}
+                                        </div>
+                                    </div>
+                                )}
+                            </div>
+                        </div>
+                    )}
+                </div>
+            );
+        }
+
+        ReactDOM.render(<EmailClassifierUI />, document.getElementById('root'));
+    </script>
+</body>
+</html>
