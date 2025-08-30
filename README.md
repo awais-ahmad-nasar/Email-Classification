@@ -9,14 +9,14 @@ A sophisticated Python-based email classification system designed to categorize 
 
 > Enhanced Keyword Analysis: Includes ultra-comprehensive keyword dictionaries for each category (e.g., spam, promotions, personal) with weighted scoring for critical indicators like urgency, financial terms, or personal greetings. Regular expressions enhance detection of email structures specific to each category.
 
-Device Optimization: Automatically detects and selects the optimal device (CPU or CUDA-enabled GPU) based on available memory (minimum 1.5GB GPU memory required for CUDA). Provides fallback to CPU if GPU resources are insufficient.
+> Device Optimization: Automatically detects and selects the optimal device (CPU or CUDA-enabled GPU) based on available memory (minimum 1.5GB GPU memory required for CUDA). Provides fallback to CPU if GPU resources are insufficient.
 
-Batch Processing: Efficiently processes multiple emails with progress tracking, suitable for large-scale email analysis.
+> Batch Processing: Efficiently processes multiple emails with progress tracking, suitable for large-scale email analysis.
 
-Detailed Analysis: Offers in-depth insights through category scoring, keyword matching counts, and pattern detection, enabling transparency in classification decisions.
+> Detailed Analysis: Offers in-depth insights through category scoring, keyword matching counts, and pattern detection, enabling transparency in classification decisions.
 
-Robust Error Handling: Gracefully handles model loading failures, CUDA errors, and long input texts (truncates at 1000 characters) to ensure reliability.
+> Robust Error Handling: Gracefully handles model loading failures, CUDA errors, and long input texts (truncates at 1000 characters) to ensure reliability.
 
-Contextual Indicators: Incorporates sender domain analysis, subject line prefixes, and content length heuristics to refine classification accuracy.
+> Contextual Indicators: Incorporates sender domain analysis, subject line prefixes, and content length heuristics to refine classification accuracy.
 
-Extensive Category Support: Classifies emails into eight categories with detailed keyword groups, such as spam (urgent words, scam indicators), promotions (sales terms, discounts), and personal (greetings, emotions).
+> Extensive Category Support: Classifies emails into eight categories with detailed keyword groups, such as spam (urgent words, scam indicators), promotions (sales terms, discounts), and personal (greetings, emotions).
